@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css3.css"/>
+		<script type="text/javascript">
+
+		//Global Variables
+		var painted;
+		var content;
+		var winningCombinations;
+		var turn = 0;
+		var theCanvas;
+		var c;
+		var cxt;
+		var squaresFilled = 0;
+		var w;
+		var y;
+
+		//Instanciate Arrays
+		window.onload=function(){
+			
+			painted = new Array();
+			content = new Array();
+			winningCombinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+			for(var l = 0; l <= 24; l++){
+			painted[l] = false;
+			content[l]='';
+			}
+		}
+
+		//Game methods
+		function canvasClicked(canvasNumber){
+			theCanvas = "canvas"+canvasNumber;
+			c = document.getElementById(theCanvas);
+			cxt = c.getContext("2d");
+
+			if(painted[canvasNumber-1] ==false){
+				if(turn==0){
+					cxt.beginPath();
+					cxt.moveTo(10,10);
+					cxt.lineTo(40,40);
+					cxt.moveTo(40,10);
+					cxt.lineTo(10,40);
+					cxt.stroke();
+					cxt.closePath();
+					content[canvasNumber-1] = 'X';
+					turn = 1;
+				} else if(turn == 1){
+					cxt.beginPath();
+					cxt.arc(25,25,20,0,Math.PI*2,true);
+					cxt.stroke();
+					cxt.closePath();
+					content[canvasNumber-1] = 'O';
+					turn = 2;
+				} else {
+					cxt.beginPath();
+					cxt.moveTo(25,10);
+					cxt.lineTo(10,40);
+					cxt.lineTo(40,40);
+					cxt.lineTo(25,10);
+					cxt.stroke();
+					cxt.closePath();
+					content[canvasNumber-1] = 't';
+					turn = 0;
+				}
+
+				painted[canvasNumber-1] = true;
+				squaresFilled++;
+				//checkForWinners(content[canvasNumber-1]);
+
+				if(squaresFilled==25){
+					alert("THE GAME IS OVER!");
+					location.reload(true);
+				}
+			
+			}
+			else{
+				alert("THAT SPACE IS ALREADY OCCUPIED WITH YOUR HEART!");
+			}
+
+		}
+
+		function checkForWinners(symbol){
+			
+			for(var a = 0; a < winningCombinations.length; a++){
+			if(content[winningCombinations[a][0]]==symbol&&content[winningCombinations[a][1]]==	symbol&&content[winningCombinations[a][2]]==symbol){
+				alert(symbol+ " WON!");
+				playAgain();
+			}
+			}
+
+		}
+
+		function playAgain(){
+			y=confirm("PLAY AGAIN?");
+			if(y==true){
+				alert("OKAY! ^^/>");
+				location.reload(true);
+			}
+			else{
+				alert("SO LONG,SUCKER!");
+		}
+
+		}
+
+
+		</script>
+	</head>
+	<body>
+		<div id ="box">
+			<h1>Awesome</h1><h3> TIC - TAC - TOE!</h3>
+			<canvas id = "canvas1"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(1)"></canvas>
+			<canvas id = "canvas2"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(2)"></canvas>
+			<canvas id = "canvas3"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(3)"></canvas>
+			<canvas id = "canvas4"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(4)"></canvas>
+			<canvas id = "canvas5"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(5)"></canvas></br>
+			<canvas id = "canvas6"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(6)"></canvas>
+			<canvas id = "canvas7"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(7)"></canvas>
+			<canvas id = "canvas8"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(8)"></canvas>
+			<canvas id = "canvas9"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(9)"></canvas>
+			<canvas id = "canvas10"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(10)"></canvas></br>
+			<canvas id = "canvas11"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(11)"></canvas>
+			<canvas id = "canvas12"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(12)"></canvas>
+			<canvas id = "canvas13"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(13)"></canvas>
+			<canvas id = "canvas14"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(14)"></canvas>
+			<canvas id = "canvas15"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(15)"></canvas></br>
+			<canvas id = "canvas16"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(16)"></canvas>
+			<canvas id = "canvas17"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(17)"></canvas>
+			<canvas id = "canvas18"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(18)"></canvas>
+			<canvas id = "canvas19"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(19)"></canvas>
+			<canvas id = "canvas20"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(20)"></canvas></br>
+			<canvas id = "canvas21"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(21)"></canvas>
+			<canvas id = "canvas22"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(22)"></canvas>
+			<canvas id = "canvas23"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(23)"></canvas>
+			<canvas id = "canvas24"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(24)"></canvas>
+			<canvas id = "canvas25"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(25)"></canvas>	
+		</div>
+	</body>
+</html>
+
