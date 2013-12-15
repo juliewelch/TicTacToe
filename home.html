@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css3.css"/>
+	</head>
+	
+	<body>
+		<div id ="box">
+
+			<h1>Awesome</h1><h3> TIC - TAC - TOE!</h3><br>
+						
+			<form action="tictactoe.html">
+			How many rows should the board have?
+			<select name="rows">
+				<script>
+					for(row = 4; row <= 10; row++)
+						document.write("<option value=\"" + row + "\">" + row + "</option>");
+				</script>
+			</select>
+			
+			<br><br>
+			
+			How many columns should the board have?
+			<select name="cols">
+				<script>
+					for(col = 4; col <= 10; col++)
+						document.write("<option value=\"" + col + "\">" + col + "</option>");
+				</script>
+			</select>
+			
+			<br><br><input type="submit">
+			
+		</div>
+	</body>
+</html>

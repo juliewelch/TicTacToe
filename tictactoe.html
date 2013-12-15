@@ -15,7 +15,20 @@
 		var squaresFilled = 0;
 		var w;
 		var y;
+		var rows = getUrlVars()["rows"];
+		var cols = getUrlVars()["cols"];
 
+		//Get rows/variables from URL
+		//Taken from http://papermashup.com/read-url-get-variables-withjavascript/
+		function getUrlVars() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+		});
+		return vars;
+		}
+
+		
 		//Instanciate Arrays
 		window.onload=function(){
 			
@@ -23,7 +36,7 @@
 			content = new Array();
 			winningCombinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
-			for(var l = 0; l <= 24; l++){
+			for(var l = 0; l <= rows*cols; l++){
 			painted[l] = false;
 			content[l]='';
 			}
@@ -69,7 +82,7 @@
 				squaresFilled++;
 				//checkForWinners(content[canvasNumber-1]);
 
-				if(squaresFilled==25){
+				if(squaresFilled==rows*cols){
 					alert("THE GAME IS OVER!");
 					location.reload(true);
 				}
@@ -107,34 +120,19 @@
 
 		</script>
 	</head>
+	
 	<body>
 		<div id ="box">
-			<h1>Awesome</h1><h3> TIC - TAC - TOE!</h3>
-			<canvas id = "canvas1"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(1)"></canvas>
-			<canvas id = "canvas2"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(2)"></canvas>
-			<canvas id = "canvas3"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(3)"></canvas>
-			<canvas id = "canvas4"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(4)"></canvas>
-			<canvas id = "canvas5"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(5)"></canvas></br>
-			<canvas id = "canvas6"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(6)"></canvas>
-			<canvas id = "canvas7"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(7)"></canvas>
-			<canvas id = "canvas8"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(8)"></canvas>
-			<canvas id = "canvas9"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(9)"></canvas>
-			<canvas id = "canvas10"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(10)"></canvas></br>
-			<canvas id = "canvas11"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(11)"></canvas>
-			<canvas id = "canvas12"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(12)"></canvas>
-			<canvas id = "canvas13"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(13)"></canvas>
-			<canvas id = "canvas14"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(14)"></canvas>
-			<canvas id = "canvas15"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(15)"></canvas></br>
-			<canvas id = "canvas16"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(16)"></canvas>
-			<canvas id = "canvas17"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(17)"></canvas>
-			<canvas id = "canvas18"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(18)"></canvas>
-			<canvas id = "canvas19"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(19)"></canvas>
-			<canvas id = "canvas20"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(20)"></canvas></br>
-			<canvas id = "canvas21"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(21)"></canvas>
-			<canvas id = "canvas22"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(22)"></canvas>
-			<canvas id = "canvas23"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(23)"></canvas>
-			<canvas id = "canvas24"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(24)"></canvas>
-			<canvas id = "canvas25"  width="50" height="50" style="border:1px solid black" onclick="canvasClicked(25)"></canvas>	
+			<h1>Awesome</h1><h3> TIC - TAC - TOE!</h3><br><br>
+			<script type="text/javascript">
+				for(box=1; box<=rows*cols; box++)
+				{
+					document.write("<canvas id = \"canvas" + box + "\"  width=\"50\" height=\"50\" style=\"border:1px solid black\" onclick=\"canvasClicked(" + box + ")\"></canvas> ");
+					
+					if(!(box%rows))
+						document.write("<br>");
+				}
+			</script>
 		</div>
 	</body>
 </html>
