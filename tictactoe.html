@@ -7,7 +7,6 @@
 		//Global Variables
 		var painted;
 		var content;
-		var winningCombinations;
 		var turn = 0;
 		var theCanvas;
 		var c;
@@ -15,6 +14,10 @@
 		var squaresFilled = 0;
 		var w;
 		var y;
+		var scoreX = 0;
+		var scoreO = 0;
+		var scoreT = 0;
+		var streak = 1;
 		var rows = getUrlVars()["rows"];
 		var cols = getUrlVars()["cols"];
 
@@ -27,14 +30,12 @@
 		});
 		return vars;
 		}
-
 		
 		//Instanciate Arrays
 		window.onload=function(){
 			
 			painted = new Array();
 			content = new Array();
-			winningCombinations = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
 
 			for(var l = 0; l <= rows*cols; l++){
 			painted[l] = false;
@@ -74,15 +75,16 @@
 					cxt.lineTo(25,10);
 					cxt.stroke();
 					cxt.closePath();
-					content[canvasNumber-1] = 't';
+					content[canvasNumber-1] = 'T';
 					turn = 0;
 				}
 
 				painted[canvasNumber-1] = true;
 				squaresFilled++;
-				//checkForWinners(content[canvasNumber-1]);
+				
 
 				if(squaresFilled==rows*cols){
+					checkForWinners();
 					alert("THE GAME IS OVER!");
 					location.reload(true);
 				}
@@ -94,17 +96,273 @@
 
 		}
 
-		function checkForWinners(symbol){
+	function checkForWinners(){
+		//Score rows
+		for(var i = 0; i < rows; i++)
+		{
+			var prev = '';
+			var current;
 			
-			for(var a = 0; a < winningCombinations.length; a++){
-			if(content[winningCombinations[a][0]]==symbol&&content[winningCombinations[a][1]]==	symbol&&content[winningCombinations[a][2]]==symbol){
-				alert(symbol+ " WON!");
-				playAgain();
+			for(var j = 0; j < cols; j++)
+			{
+				current = content[cols*i+j];
+				if(prev=='')
+				{
+					streak = 1;
+				}
+				else if(prev == current)
+				{
+					streak += 1;
+				}
+				else
+				{
+					if(streak!=1)
+					if(prev == 'X')
+					{
+						scoreX += streak*streak;
+					}
+					else if(prev == 'O')
+					{
+						scoreO += streak*streak;
+					}
+					else 
+					{
+						scoreT += streak*streak;
+					}
+					streak = 1;
+				}
+			
+				if(j==cols-1 && streak != 1)
+				{
+					if(prev == 'X')
+					{
+						scoreX += streak*streak;
+					}
+					else if(prev == 'O')
+					{
+						scoreO += streak*streak;
+					}
+					else 
+					{
+						scoreT += streak*streak;
+					}
+				}
+				prev = current;
 			}
+			prev = '';
+		}	
+	
+		//Score columns
+		for(var i = 0; i < cols; i++)
+		{
+			var prev = '';
+			var current;
+			
+			for(var j = 0; j < rows; j++)
+			{
+				current = content[cols*j+i];
+				if(prev=='')
+				{
+					streak = 1;
+				}
+				else if(prev == current)
+				{
+					streak += 1;
+				}
+				else
+				{
+					if(streak != 1)
+					if(prev == 'X')
+					{
+						scoreX += streak*streak;
+					}
+					else if(prev == 'O')
+					{
+						scoreO += streak*streak;
+					}
+					else 
+					{
+						scoreT += streak*streak;
+					}
+					streak = 1;
+				}
+			
+				if(j==rows-1 && streak != 1)
+				{
+					if(prev == 'X')
+					{
+						scoreX += streak*streak;
+					}
+					else if(prev == 'O')
+					{
+						scoreO += streak*streak;
+					}
+					else 
+					{
+						scoreT += streak*streak;
+					}
+				}
+				prev = current;
 			}
-
+			prev = '';
 		}
+			
+			//Count for backward diagonal
+			var diagonal=new Array(rows)
+			for (i=0; i <rows; i++)
+				diagonal[i]=new Array(cols)
+			
+			for(var i = 0; i < rows; i++)
+			{
+				for(var j = 0; j < cols; j++)
+				{
+					diagonal[i][j] = content[cols*i+j];
+				}
+			}
+			
+			for (var slice = 0; slice < rows*cols - 1; ++slice) 
+			{
+				var prev = '';
+				var current;
+			
+				var z = slice < rows ? 0 : slice - rows + 1;
+				for (var j = z; j <= slice - z; ++j) 
+				{
+					current = diagonal[j][slice - j];					
+					
+					if(prev=='')
+					{
+						streak = 1;
+					}
+					else if(prev == current)
+					{
+						streak += 1;
+					}
+					else
+					{
+						if(streak != 1)
+						if(prev == 'X')
+						{
+							scoreX += streak*streak;
+						}
+						else if(prev == 'O')
+						{
+							scoreO += streak*streak;
+						}
+						else 
+						{
+							scoreT += streak*streak;
+						}
+						streak = 1;
+					}
+					
+					if(j==slice-z && streak != 1)
+					{
+						if(prev == 'X')
+						{
+							scoreX += streak*streak;
+						}
+						else if(prev == 'O')
+						{
+							scoreO += streak*streak;
+						}
+						else 
+						{
+							scoreT += streak*streak;
+						}
+						streak = 1;
+					}
+					
+					
+					prev = current;
+				}
+				prev = '';
+			}
+		
+		//Count for forward diagonal			
+			for (var slice = 0; slice < rows*cols - 1; ++slice) 
+			{
+				var prev = '';
+				var current;
+			
+				var z = slice < rows ? 0 : slice - rows + 1;
+				for (var j = z; j <= slice - z; ++j) 
+				{
+					current = diagonal[j][(cols-1)-(slice-j)];	
 
+					if(prev=='')
+					{
+						streak = 1;
+					}
+					else if(prev == current)
+					{
+						streak += 1;
+					}
+					else
+					{
+						if(streak != 1)
+						if(prev == 'X')
+						{
+							scoreX += streak*streak;
+						}
+						else if(prev == 'O')
+						{
+							scoreO += streak*streak;
+						}
+						else 
+						{
+							scoreT += streak*streak;
+						}
+						streak = 1;
+					}
+					
+					if(j==slice-z && streak != 1)
+					{
+						if(prev == 'X')
+						{
+							scoreX += streak*streak;
+						}
+						else if(prev == 'O')
+						{
+							scoreO += streak*streak;
+						}
+						else 
+						{
+							scoreT += streak*streak;
+						}
+						streak = 1;
+					}
+					
+					
+					prev = current;
+				}
+				prev = '';
+			}
+			alert(scoreX);
+			alert(scoreO);
+			alert(scoreT);
+		}
+		
+		
+		
+		
+		
+	
+			
+			
+			
+			
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		function playAgain(){
 			y=confirm("PLAY AGAIN?");
 			if(y==true){
@@ -129,7 +387,7 @@
 				{
 					document.write("<canvas id = \"canvas" + box + "\"  width=\"50\" height=\"50\" style=\"border:1px solid black\" onclick=\"canvasClicked(" + box + ")\"></canvas> ");
 					
-					if(!(box%rows))
+					if(!(box%cols))
 						document.write("<br>");
 				}
 			</script>
