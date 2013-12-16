@@ -91,7 +91,7 @@
 			
 			}
 			else{
-				alert("THAT SPACE IS ALREADY OCCUPIED WITH YOUR HEART!");
+				alert("Please choose another location.");
 			}
 
 		}
@@ -338,31 +338,19 @@
 				}
 				prev = '';
 			}
-			alert(scoreX);
-			alert(scoreO);
-			alert(scoreT);
-		}
-		
-		
-		
-		
-		
-	
+        
+        if((scoreX > scoreO) && (scoreX > scoreT)){
+            alert('Player X won with ' + scoreX + ' points! Player O had ' + scoreO + ' points and Player T had ' + scoreT + ' points.');
+        } else if((scoreO > scoreX) && (scoreO > scoreT)){
+            alert('Player O won with ' + scoreO + ' points! Player X had ' + scoreX + ' points and Player T had ' + scoreT + ' points.');
+		} else if((scoreT > scoreX) && (scoreT > scoreO)){
+            alert('Player T won with ' + scoreT + ' points! Player X had ' + scoreX + ' points and Player O had ' + scoreO + ' points.');
+        } else {
+            alert('This match ended in a draw!');
+        }
+    }
+            
 			
-			
-			
-			
-			
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 		function playAgain(){
 			y=confirm("PLAY AGAIN?");
 			if(y==true){
@@ -371,7 +359,7 @@
 			}
 			else{
 				alert("SO LONG,SUCKER!");
-		}
+		  }
 
 		}
 
