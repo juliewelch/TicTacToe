@@ -86,7 +86,7 @@
 				if(squaresFilled==rows*cols){
 					checkForWinners();
 					alert("THE GAME IS OVER!");
-					location.reload(true);
+					playAgain();
 				}
 			
 			}
@@ -346,7 +346,7 @@
 		} else if((scoreT > scoreX) && (scoreT > scoreO)){
             alert('Player T won with ' + scoreT + ' points! Player X had ' + scoreX + ' points and Player O had ' + scoreO + ' points.');
         } else {
-            alert('This match ended in a draw!');
+            alert('This match ended in a draw! Player X had ' + scoreX + ' points, Player O had ' + scoreO + ' points and Player T had ' + scoreT + ' points.');
         }
     }
             
@@ -354,11 +354,11 @@
 		function playAgain(){
 			y=confirm("PLAY AGAIN?");
 			if(y==true){
-				alert("OKAY! ^^/>");
+				alert("Clearning board and starting over!");
 				location.reload(true);
 			}
 			else{
-				alert("SO LONG,SUCKER!");
+				alert("Goodbye!");
 		  }
 
 		}
